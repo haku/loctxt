@@ -4,6 +4,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
+import com.vaguehope.loctxt.vodafone.VodafoneAPI;
+
 public class Cron extends TimerTask {
 
 	private static final long DELAY = 10L * 1000L; // 10 seconds.
@@ -25,5 +27,6 @@ public class Cron extends TimerTask {
 	public void run () {
 		LOG.info("CRON run");
 
+		VodafoneAPI.sendSms("447824607574", "447824607574", "loctxt is working.");
 	}
 }

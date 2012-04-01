@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import org.eclipse.jetty.util.log.Log;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.Api20;
 import org.scribe.model.Request;
@@ -79,6 +80,7 @@ public class VodafoneAPI implements Api20
 			req.addBodyParameter("key", vkey);
 			Response response = req.send();
 			if (response.getCode() != 200) throw new RuntimeException(response.getCode() + " " + response.getBody());
+			Log.info("Send sms from " + fromNumber + " to " + toNumber);
 		}
 		catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
