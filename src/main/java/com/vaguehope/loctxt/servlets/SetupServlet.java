@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class UserServlet extends HttpServlet {
+public class SetupServlet extends HttpServlet {
 
 	public static final String CONTEXT = "/setup";
 

@@ -16,7 +16,7 @@ import com.vaguehope.loctxt.reporter.JvmReporter;
 import com.vaguehope.loctxt.reporter.Reporter;
 import com.vaguehope.loctxt.reporter.SessionReporter;
 import com.vaguehope.loctxt.servlets.LocationServlet;
-import com.vaguehope.loctxt.servlets.UserServlet;
+import com.vaguehope.loctxt.servlets.SetupServlet;
 import com.vaguehope.loctxt.servlets.VodafoneOauthServlet;
 
 public class Main {
@@ -56,7 +56,7 @@ public class Main {
 		// Servlets.
 		servletHandler.addServlet(new ServletHolder(new VodafoneOauthServlet()), VodafoneOauthServlet.CONTEXT);
 		servletHandler.addServlet(new ServletHolder(new LocationServlet()), LocationServlet.CONTEXT);
-		servletHandler.addServlet(new ServletHolder(new UserServlet()), UserServlet.CONTEXT);
+		servletHandler.addServlet(new ServletHolder(new SetupServlet()), SetupServlet.CONTEXT);
 
 		// Static files on classpath.
 		ResourceHandler resourceHandler = new ResourceHandler();
