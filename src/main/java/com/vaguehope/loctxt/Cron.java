@@ -8,12 +8,9 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.http.HttpClientConnection;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.params.HttpClientParams;
-import org.apache.http.impl.DefaultHttpClientConnection;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -80,7 +77,7 @@ public class Cron extends TimerTask {
 					String currentLat = loc.getString("latitude");
 					String currentLong = loc.getString("longitude");
 
-					String locName = getLocName(currentLat, currentLong);
+					final String locName = getLocName(currentLat, currentLong);
 
 					VodafoneAPI.sendSms(recipient_tel, "Hello from " + locName + "!");
 					
@@ -92,7 +89,12 @@ public class Cron extends TimerTask {
 							HttpParams httpParams = httpClient.getParams();
 							HttpConnectionParams.setConnectionTimeout(httpParams, 15000);
 							HttpConnectionParams.setSoTimeout(httpParams, 15000);
-							httpClient.execute(get);
+							try {
+								httpClient.execute(get);
+							}
+							catch (Exception e) {
+								LOG.log(Level.WARNING, "Email send failed.", e);
+							}
 						};
 					}.start();
 					Log.info("Completed user " + user_id + " in " + locName + ".");
