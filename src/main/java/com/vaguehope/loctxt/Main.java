@@ -10,17 +10,20 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
 import com.vaguehope.loctxt.reporter.JvmReporter;
 import com.vaguehope.loctxt.reporter.Reporter;
 import com.vaguehope.loctxt.reporter.SessionReporter;
+import com.vaguehope.loctxt.servlets.LocationServlet;
+import com.vaguehope.loctxt.servlets.VodafoneOauthServlet;
 
 public class Main {
 //	- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	private static final int ACCEPTORS = 2;
 	private static final int MAX_IDLE_TIME_MS = 25000; // 25 seconds in milliseconds.
-	private static final int SESSION_INACTIVE_TIMEOUT_SECONDS = 15 * 60; // 15 minutes in seconds.
+	private static final int SESSION_INACTIVE_TIMEOUT_SECONDS = 4 * 60 * 60; // 4 hours in seconds.
 	private static final int LOW_RESOURCES_CONNECTIONS = 100;
 	private static final int LOW_RESOURCES_MAX_IDLE_TIME_MS = 5000; // 5 seconds in milliseconds.
 
@@ -50,6 +53,8 @@ public class Main {
 		sessionManager.addEventListener(sessionReporter);
 
 		// Servlets.
+		servletHandler.addServlet(new ServletHolder(new VodafoneOauthServlet()), VodafoneOauthServlet.CONTEXT);
+		servletHandler.addServlet(new ServletHolder(new LocationServlet()), LocationServlet.CONTEXT);
 
 		// Static files on classpath.
 		ResourceHandler resourceHandler = new ResourceHandler();
