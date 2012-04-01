@@ -63,7 +63,7 @@ public class VodafoneOauthServlet extends HttpServlet {
 				String accessToken = object.getString("access_token");
 				LOG.info("api code=" + code + " --> accessToken=" + accessToken);
 				setSessionAccessToken(req, accessToken);
-				resp.getWriter().println("authorised: accessToken=" + accessToken);
+				resp.getWriter().println("<html><script>parent.vodaCallback()</script></html>");
 			}
 			catch (JSONException e) {
 				// TODO Auto-generated catch block
