@@ -1,0 +1,3 @@
+#!/bin/sh
+export REPO=$HOME/.m2/repository
+mvn install && foreman start
