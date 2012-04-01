@@ -26,7 +26,7 @@ public class VodafoneOauthServlet extends HttpServlet {
 	private static final String responseType = "code";
 
 	private static final String SESSION_API = "vapi";
-	private static final String SESSION_ACCESSTOKEN = "vaccesstoken";
+	private static final String SESSION_ACCESSTOKEN = "vtoken";
 
 	private static final long serialVersionUID = -7840979457642008927L;
 	private static final Logger LOG = Logger.getLogger(VodafoneOauthServlet.class.getName());
@@ -64,6 +64,7 @@ public class VodafoneOauthServlet extends HttpServlet {
 				String accessToken = object.getString("access_token");
 				LOG.info("api code=" + code + " --> accessToken=" + accessToken);
 				setSessionAccessToken(req, accessToken);
+				resp.getWriter().println("authorised: accessToken=" + accessToken);
 			}
 			catch (JSONException e) {
 				// TODO Auto-generated catch block
