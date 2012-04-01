@@ -24,7 +24,7 @@ public class LocationServlet extends HttpServlet {
 	@Override
 	protected void doGet (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String accessToken = VodafoneOauthServlet.getSessionAccessToken(req);
-		if (accessToken == null) throw new IllegalStateException("Not authorised.");
+		if (accessToken == null) throw new IllegalStateException("No access token saved.");
 
 		String n = req.getParameter("n");
 		if (n == null) throw new IllegalArgumentException("attr 'n' not set.");
