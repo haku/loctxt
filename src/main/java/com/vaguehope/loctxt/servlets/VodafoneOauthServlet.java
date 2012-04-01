@@ -58,9 +58,8 @@ public class VodafoneOauthServlet extends HttpServlet {
 			areq.addBodyParameter("grant_type", "authorization_code");
 			areq.addBodyParameter("code", code);
 			Response aresp = areq.send();
-			JSONObject object;
 			try {
-				object = (JSONObject) new JSONTokener(aresp.getBody()).nextValue();
+				JSONObject object = (JSONObject) new JSONTokener(aresp.getBody()).nextValue();
 				String accessToken = object.getString("access_token");
 				LOG.info("api code=" + code + " --> accessToken=" + accessToken);
 				setSessionAccessToken(req, accessToken);
