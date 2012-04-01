@@ -84,12 +84,18 @@ public class Cron extends TimerTask {
 
 					VodafoneAPI.sendSms(recipient_tel, "Hello from " + locName + "!");
 					
-					HttpGet get = new HttpGet("http://parabis.com/loctext?location=" + UrlEncoded.encodeString(locName));
-					DefaultHttpClient httpClient = new DefaultHttpClient();
-					HttpParams httpParams = httpClient.getParams();
-					HttpConnectionParams.setConnectionTimeout(httpParams, 15000);
-					HttpConnectionParams.setSoTimeout(httpParams, 15000);
-					httpClient.execute(get);
+					new Thread () {
+						@Override
+						public void run() {
+							HttpGet get = new HttpGet("http://parabis.com/loctext?location=" + UrlEncoded.encodeString(locName));
+							DefaultHttpClient httpClient = new DefaultHttpClient();
+							HttpParams httpParams = httpClient.getParams();
+							HttpConnectionParams.setConnectionTimeout(httpParams, 15000);
+							HttpConnectionParams.setSoTimeout(httpParams, 15000);
+							httpClient.execute(get);
+						};
+					}.start();
+					Log.info("Completed user " + user_id + " in " + locName + ".");
 				}
 				catch (Exception e) {
 					LOG.log(Level.WARNING, "Cron failed", e);
