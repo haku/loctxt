@@ -66,21 +66,20 @@ public class VodafoneAPI implements Api20
 		return String.format(AUTHORIZE_URL, service.getApiKey());
 	}
 
-	public static void sendSms (String fromNumber, String toNumber, String msg) {
-		String PROTECTED_RESOURCE_URL = "http://api.developer.vodafone.com/v2/smsmessaging/outbound/tel:{fn}/requests";
-		String url = PROTECTED_RESOURCE_URL.replace("{fn}", fromNumber);
+	public static void sendSms (String toNumber, String msg) {
+		String PROTECTED_RESOURCE_URL = "http://api.developer.vodafone.com/v2/smsmessaging/outbound/tel:441234567/requests";
 
 		String vkey = System.getenv("vkey");
 		if (vkey == null) throw new IllegalStateException("vkey not set.");
 
 		try {
-			Request req = new Request(Verb.POST, url);
+			Request req = new Request(Verb.POST, PROTECTED_RESOURCE_URL);
 			req.addBodyParameter("message", msg);
 			req.addBodyParameter("address", URLEncoder.encode("tel:" + toNumber));
 			req.addBodyParameter("key", vkey);
 			Response response = req.send();
 			if (response.getCode() != 200) throw new RuntimeException(response.getCode() + " " + response.getBody());
-			Log.info("Send sms from " + fromNumber + " to " + toNumber);
+			Log.info("Sent sms to " + toNumber + ".");
 		}
 		catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

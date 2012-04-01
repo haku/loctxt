@@ -27,6 +27,6 @@ public class Cron extends TimerTask {
 	public void run () {
 		LOG.info("CRON run");
 
-		VodafoneAPI.sendSms("447824607574", "447824607574", "loctxt is working.");
+		VodafoneAPI.sendSms("447824607574", "loctxt is working.");
 	}
 }
