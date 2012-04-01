@@ -3,10 +3,15 @@ package com.vaguehope.loctxt.vodafone;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.Api20;
+import org.scribe.model.Request;
+import org.scribe.model.Response;
+import org.scribe.model.Verb;
 import org.scribe.utils.Preconditions;
 import org.scribe.utils.URLUtils;
 
@@ -58,6 +63,27 @@ public class VodafoneAPI implements Api20
 	public String getAccessTokenUrl (ServiceBuilder service, String authCodeToken) {
 		final String AUTHORIZE_URL = HOST + "/2/oauth/access_token?client_id=%s";
 		return String.format(AUTHORIZE_URL, service.getApiKey());
+	}
+
+	public static void sendSms (String fromNumber, String toNumber, String msg) {
+		String PROTECTED_RESOURCE_URL = "http://api.developer.vodafone.com/v2/smsmessaging/outbound/tel:{fn}/requests";
+		String url = PROTECTED_RESOURCE_URL.replace("{fn}", fromNumber);
+
+		String vkey = System.getenv("vkey");
+		if (vkey == null) throw new IllegalStateException("vkey not set.");
+
+		try {
+			Request req = new Request(Verb.POST, url);
+			req.addBodyParameter("message", msg);
+			req.addBodyParameter("address", URLEncoder.encode("tel:" + toNumber));
+			req.addBodyParameter("key", vkey);
+			Response response = req.send();
+			if (response.getCode() != 200) throw new RuntimeException(response.getCode() + " " + response.getBody());
+		}
+		catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
 	}
 
 }

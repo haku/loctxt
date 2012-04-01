@@ -16,6 +16,7 @@ import com.vaguehope.loctxt.reporter.JvmReporter;
 import com.vaguehope.loctxt.reporter.Reporter;
 import com.vaguehope.loctxt.reporter.SessionReporter;
 import com.vaguehope.loctxt.servlets.LocationServlet;
+import com.vaguehope.loctxt.servlets.UserServlet;
 import com.vaguehope.loctxt.servlets.VodafoneOauthServlet;
 
 public class Main {
@@ -55,6 +56,7 @@ public class Main {
 		// Servlets.
 		servletHandler.addServlet(new ServletHolder(new VodafoneOauthServlet()), VodafoneOauthServlet.CONTEXT);
 		servletHandler.addServlet(new ServletHolder(new LocationServlet()), LocationServlet.CONTEXT);
+		servletHandler.addServlet(new ServletHolder(new UserServlet()), UserServlet.CONTEXT);
 
 		// Static files on classpath.
 		ResourceHandler resourceHandler = new ResourceHandler();
@@ -76,6 +78,10 @@ public class Main {
 		connector.setLowResourcesConnections(LOW_RESOURCES_CONNECTIONS);
 		connector.setLowResourcesMaxIdleTime(LOW_RESOURCES_MAX_IDLE_TIME_MS);
 		connector.setPort(Integer.parseInt(portString));
+		
+		// Cron processor.
+		Cron cron = new Cron();
+		cron.start();
 
 		// Start server.
 		this.server = new Server();
