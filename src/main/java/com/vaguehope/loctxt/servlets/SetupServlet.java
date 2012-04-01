@@ -16,6 +16,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.eclipse.jetty.util.log.Log;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import com.google.common.io.CharStreams;
 
@@ -58,6 +62,7 @@ public class SetupServlet extends HttpServlet {
 	}
 	
 	public static String getUsers () throws IOException {
+		Log.info("Getting users from: " + USERGRID_URL);
 		HttpGet get = new HttpGet(USERGRID_URL);
 		HttpResponse r = new DefaultHttpClient().execute(get);
 		InputStream s = r.getEntity().getContent();
