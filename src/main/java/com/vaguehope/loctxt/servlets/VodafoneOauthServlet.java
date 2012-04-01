@@ -80,11 +80,11 @@ public class VodafoneOauthServlet extends HttpServlet {
 	}
 
 	private static void setSessionAccessToken (HttpServletRequest req, String code) {
-		req.setAttribute(SESSION_ACCESSTOKEN, code);
+		req.getSession().setAttribute(SESSION_ACCESSTOKEN, code);
 	}
 
 	public static String getSessionAccessToken (HttpServletRequest req) {
-		Object a = req.getAttribute(SESSION_ACCESSTOKEN);
+		Object a = req.getSession().getAttribute(SESSION_ACCESSTOKEN);
 		if (a == null) return null;
 		return a.toString();
 	}
