@@ -10,16 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.eclipse.jetty.util.log.Log;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import com.google.common.io.CharStreams;
 
@@ -35,6 +30,7 @@ public class SetupServlet extends HttpServlet {
 		String userId = req.getParameter("user_id");
 		String homeLoc = req.getParameter("home_location");
 		String recipTel = req.getParameter("recipient_tel");
+		String myTel = req.getParameter("my_tel");
 
 		if (userId == null) throw new IllegalArgumentException("user_id not set.");
 		if (homeLoc == null) throw new IllegalArgumentException("home_location not set.");
@@ -43,6 +39,7 @@ public class SetupServlet extends HttpServlet {
 		String json = "{\"user_id\": \"" + userId + "\"," +
 				"\"home_location\": \"" + homeLoc + "\"," +
 				"\"recipient_tel\": \"" + recipTel + "\"" +
+				(myTel != null ? ",\"my_tel\": \"" + myTel + "\"" : "") +
 				"}";
 
 		HttpPost post = new HttpPost(USERGRID_URL);

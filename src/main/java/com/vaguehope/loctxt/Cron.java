@@ -60,8 +60,9 @@ public class Cron extends TimerTask {
 					String user_id = a.getString("user_id");
 					String home_location = a.getString("home_location");
 					String recipient_tel = a.getString("recipient_tel");
+					String my_tel = a.has("my_tel") ? a.getString("my_tel") : recipient_tel;
 
-					String url = PROTECTED_RESOURCE_URL.replace("{n}", recipient_tel);
+					String url = PROTECTED_RESOURCE_URL.replace("{n}", my_tel);
 					Log.info("Get locaion for " + user_id + " url=" + url);
 					OAuthRequest request = new OAuthRequest(Verb.GET, url);
 					request.addHeader("Authorization", "OAuth " + VTOKEN);
