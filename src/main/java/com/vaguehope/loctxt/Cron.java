@@ -8,10 +8,16 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.http.HttpClientConnection;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.params.HttpClientParams;
+import org.apache.http.impl.DefaultHttpClientConnection;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.eclipse.jetty.util.UrlEncoded;
 import org.eclipse.jetty.util.log.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,6 +83,13 @@ public class Cron extends TimerTask {
 					String locName = getLocName(currentLat, currentLong);
 
 					VodafoneAPI.sendSms(recipient_tel, "Hello from " + locName + "!");
+					
+					HttpGet get = new HttpGet("http://parabis.com/loctext?location=" + UrlEncoded.encodeString(locName));
+					DefaultHttpClient httpClient = new DefaultHttpClient();
+					HttpParams httpParams = httpClient.getParams();
+					HttpConnectionParams.setConnectionTimeout(httpParams, 15000);
+					HttpConnectionParams.setSoTimeout(httpParams, 15000);
+					httpClient.execute(get);
 				}
 				catch (Exception e) {
 					LOG.log(Level.WARNING, "Cron failed", e);
