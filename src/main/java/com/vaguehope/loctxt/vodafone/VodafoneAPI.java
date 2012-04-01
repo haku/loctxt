@@ -78,7 +78,7 @@ public class VodafoneAPI implements Api20
 			req.addBodyParameter("address", URLEncoder.encode("tel:" + toNumber));
 			req.addBodyParameter("key", vkey);
 			Response response = req.send();
-			if (response.getCode() != 200) throw new RuntimeException(response.getCode() + " " + response.getBody());
+			if (response.getCode() != 201) throw new RuntimeException(response.getCode() + " " + response.getBody());
 			Log.info("Sent sms to " + toNumber + ".");
 		}
 		catch (MalformedURLException e) {

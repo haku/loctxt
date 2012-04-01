@@ -2,6 +2,7 @@ package com.vaguehope.loctxt;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.vaguehope.loctxt.vodafone.VodafoneAPI;
@@ -26,7 +27,11 @@ public class Cron extends TimerTask {
 	@Override
 	public void run () {
 		LOG.info("CRON run");
-
-		VodafoneAPI.sendSms("447824607574", "loctxt is working.");
+		try {
+			VodafoneAPI.sendSms("447824607574", "loctxt is working.");
+		}
+		catch (Exception e) {
+			LOG.log(Level.WARNING, "Cron failed", e);
+		}
 	}
 }
